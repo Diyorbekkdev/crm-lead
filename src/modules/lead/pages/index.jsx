@@ -131,10 +131,15 @@ export const Lead = () => {
     );
   }
 
+
+  const handleOpen = () => {
+      setValues({})
+      setOpen(true)
+  }
   return (
     <section>
        <div className='grid mb-4'>
-           <Button onClick={() => setOpen(true)} size='large' icon={<PlusCircleOutlined />} className='ml-auto'>Add List</Button>
+           <Button onClick={handleOpen} size='large' icon={<PlusCircleOutlined />} className='ml-auto'>Add List</Button>
        </div>
         <div className="flex gap-2 whitespace-nowrap overflow-x-auto">
             <DragDropContext
