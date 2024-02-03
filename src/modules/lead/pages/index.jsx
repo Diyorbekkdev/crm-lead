@@ -15,31 +15,35 @@ import {httpClient} from "@/utils/index.js";
 import {useFetchList} from "@/hooks/index.js";
 import {Triangle} from "react-loader-spinner";
 import {Avatar, Button, Empty, Modal, Tooltip} from "antd";
+import LeadModal from "@/modules/lead/components/lid-modal.jsx";
 import ListModal from "@/modules/lead/components/list-modal.jsx";
 import {DragDropContext, Draggable, Droppable} from "@hello-pangea/dnd";
-import LeadModal from "@/modules/lead/components/lid-modal.jsx";
 
 export const Lead = () => {
+  const [values, setValues] = useState({});
   const [listModal, setListModal] = useState(false);
   const [leadModal, setLeadModal] = useState(false);
-  const [values, setValues] = useState({});
   const {data, isLoading, refetch} = useFetchList({
     url: "/status/list",
     Params: {page: 1, pageSize: 10},
   });
-
   const [columns, setColumns] = useState(data?.snapData);
+  const [prevTotalLids, setPrevTotalLids] = useState(data?.total_lids);
 
-  // useEffect(() => {
-  //   const setTerm = setInterval(() => refetch(), 10000);
-  //   return () => {
-  //     clearInterval(setTerm)
-  //   };
-  // }, [])
+  useEffect(() => {
+    const setTerm = setInterval(() => refetch(), 10000);
+    return () => {
+      clearInterval(setTerm)
+    };
+  }, [data])
 
   useEffect(() => {
     setColumns(data?.snapData);
-  }, [data?.snapData]);
+    if (data?.total_lids > prevTotalLids) {
+      toast.success('New lead was added!');
+    }
+    setPrevTotalLids(data?.total_lids);
+  }, [data?.snapData, data?.total_lids, prevTotalLids]);
 
   const handleEdit = async (id) => {
     try {
