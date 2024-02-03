@@ -7,7 +7,7 @@ import MainInput from "@/components/fields/main-input.jsx";
 
 const LeadModal = (props) => {
   const {onClose, open, values, setValues, refetch} = props;
-  console.log(values)
+
   return (
     <Drawer title={get(values, '_id') ? 'Edit Lead' : 'Create Lead'} onClose={onClose} open={open}>
       <FormContainer
